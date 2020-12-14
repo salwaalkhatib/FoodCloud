@@ -64,6 +64,7 @@
     <string name="confirm_order">Confirm order</string>
     <string name="confirm_order_msg">Are you sure you want to order these items?</string>
     <string name="upload_img_text">Please wait while we upload your image.</string>
+    <string name="no_order">"You can't make any more orders today. Kindly visit us tomorrow!"</string>
     <string-array name="category_array">
         <item>Candy</item>
         <item>Canned Food</item>

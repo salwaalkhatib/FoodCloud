@@ -42,6 +42,7 @@ class DashboardFragment() : Fragment() {
   private lateinit var arrayQuantity: ArrayList<Int>
   private var amount: Int = 0
   lateinit var noOrder:TextView
+  private val MAX: Int = 10
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -66,6 +67,8 @@ class DashboardFragment() : Fragment() {
     arrayIDs = arrayListOf()
     arrayQuantity = arrayListOf()
 
+
+
     orderBtn.setOnClickListener {
       val alertDialog: AlertDialog.Builder = AlertDialog.Builder(root.context)
       alertDialog.setTitle(root.context.resources.getString(R.string.confirm_order))
@@ -89,40 +92,13 @@ class DashboardFragment() : Fragment() {
 
   override fun onStart() {
     super.onStart()
+    amount_in_db()
     val cartListRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Cart List")
     val options = FirebaseRecyclerOptions.Builder<Cart>().setQuery(cartListRef.child("User View")
       .child(mFirebaseAuth.currentUser?.phoneNumber.toString()).child("Item"), Cart::class.java)
       .setLifecycleOwner(this).build()
 
-    val nbOrder: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Orders")
-      .child(mFirebaseAuth.currentUser?.phoneNumber.toString())
-        var order:Order
-        var amount2:Int
-    var saveDate:String
-    val postListener = object: ValueEventListener{
-      override fun onDataChange(dataSnapshot: DataSnapshot) {
-        for (postSnapshot in dataSnapshot.children) {
-          order= postSnapshot.getValue(Order::class.java)!!
-          amount2 = order?.totalAmount?.toInt()
-          val calForDate: Calendar = Calendar.getInstance()
-          val currentDate: SimpleDateFormat = SimpleDateFormat("MMM dd, yyyy")
-           saveDate = currentDate.format(calForDate.time)
-          if (amount2 != null && amount2 >= 10 && order?.date == saveDate) {
-            orderBtn.isEnabled = false
-            noOrder.text = "You can't make orders today, Kindly visit us tomorrow!"
 
-          }
-
-        }
-      }
-
-      override fun onCancelled(error: DatabaseError) {
-        context?.let {
-          show(it, "No")
-        }
-      }
-    }
-    nbOrder.addValueEventListener(postListener)
       val adapter1 = object : FirebaseRecyclerAdapter<Cart, CartViewHolder>(options) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
           return CartViewHolder(
@@ -183,63 +159,123 @@ class DashboardFragment() : Fragment() {
       adapter1.startListening()
     }
 
-            private fun confirmOrder() {
-      val saveCurrentTime: String
-      val saveCurrentDate: String
-      val calForDate: Calendar = Calendar.getInstance()
-      val currentDate: SimpleDateFormat = SimpleDateFormat("MMM dd, yyyy")
-      saveCurrentDate = currentDate.format(calForDate.time)
-      val currentTime: SimpleDateFormat = SimpleDateFormat("HH:mm:ss a")
-      saveCurrentTime = currentTime.format(calForDate.time)
-      val key = UUID.randomUUID().toString()
-      val orderRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Orders")
-        .child(mFirebaseAuth.currentUser?.phoneNumber.toString()).child(key)
-      val orderMap: MutableMap<String, String> = mutableMapOf<String, String>()
-      orderMap["totalAmount"] = amount.toString()
-      orderMap["time"] = saveCurrentTime
-      orderMap["date"] = saveCurrentDate
-      orderMap["key"] = key
-      orderRef.updateChildren(orderMap as Map<String, Any>).addOnCompleteListener() { task ->
-        if (task.isSuccessful) {
-          FirebaseDatabase.getInstance().reference.child("Cart List")
-            .child("User View").child(mFirebaseAuth.currentUser?.phoneNumber.toString())
-            .removeValue().addOnCompleteListener() { task ->
-              show(requireActivity(), requireActivity().resources.getString(R.string.order_success))
-              startActivity(Intent(requireActivity(), receiver_bottom::class.java))
-            }
+  private fun confirmOrder() {
+    val nbOrder: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Orders")
+      .child(mFirebaseAuth.currentUser?.phoneNumber.toString())
+    val calForDate1: Calendar = Calendar.getInstance()
+    val currentDate1 = SimpleDateFormat("MMM dd, yyyy")
+    val saveDate = currentDate1.format(calForDate1.time)
+    var amount_db: Int = 0
+    var x: Int = 0
+    val postListener1 = object: ValueEventListener{
+      override fun onDataChange(dataSnapshot: DataSnapshot) {
+        for (postSnapshot in dataSnapshot.children) {
+          val order= postSnapshot.getValue(Order::class.java)!!
+          if (order != null && order?.date.toString() == saveDate) {
+            amount_db += order?.totalAmount?.toInt()
+          }
+          if(amount_db+ amount>MAX) {
+            x = MAX - amount_db
+            noOrder?.text = "You can only order "+ x.toString()+ " item(s)."
+          }else{
+            order()
 
-        } else {
+          }
 
         }
 
+
       }
-      val dashRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Item")
-      val postListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-          if (dataSnapshot.exists()) {
-            for (postSnapshot in dataSnapshot.children) {
-              var item = postSnapshot.getValue(Item::class.java)
-              if (arrayIDs.contains(item?.itemId) && item != null) {
-                val i: Int = arrayIDs.indexOf(item.itemId)
-                val current: Int = item.quantity - arrayQuantity[i]
-                if (current > 0) {
-                  postSnapshot.ref.child("quantity").setValue(current)
-                  postSnapshot.ref.child("redeemed").setValue(false)
-                } else {
-                  postSnapshot.ref.child("quantity").setValue(current)
-                  postSnapshot.ref.child("redeemed").setValue(true)
-                }
+      override fun onCancelled(error: DatabaseError) {
+
+      }
+    }
+    nbOrder.addValueEventListener(postListener1)
+
+    }
+
+  private fun amount_in_db(){
+    val nbOrder: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Orders")
+      .child(mFirebaseAuth.currentUser?.phoneNumber.toString())
+    val calForDate: Calendar = Calendar.getInstance()
+    val currentDate = SimpleDateFormat("MMM dd, yyyy")
+    val saveDate = currentDate.format(calForDate.time)
+    var amount_db: Int = 0
+    val postListener1 = object: ValueEventListener{
+      override fun onDataChange(dataSnapshot: DataSnapshot) {
+        for (postSnapshot in dataSnapshot.children) {
+          val order= postSnapshot.getValue(Order::class.java)!!
+          if (order != null && order?.date.toString() == saveDate) {
+            amount_db += order?.totalAmount?.toInt()
+          }
+          if(amount_db>=MAX){
+            orderBtn.isEnabled = false
+            noOrder.text = "You can't make any more orders today. Kindly visit us tomorrow!"}
+
+        }
+
+
+      }
+      override fun onCancelled(error: DatabaseError) {
+
+      }
+    }
+    nbOrder.addValueEventListener(postListener1)
+  }
+
+  private fun order(){
+    val saveCurrentTime: String
+    val saveCurrentDate: String
+    val calForDate: Calendar = Calendar.getInstance()
+    val currentDate: SimpleDateFormat = SimpleDateFormat("MMM dd, yyyy")
+    saveCurrentDate = currentDate.format(calForDate.time)
+    val currentTime: SimpleDateFormat = SimpleDateFormat("HH:mm:ss a")
+    saveCurrentTime = currentTime.format(calForDate.time)
+    val key = UUID.randomUUID().toString()
+    val orderRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Orders")
+      .child(mFirebaseAuth.currentUser?.phoneNumber.toString()).child(key)
+    val orderMap: MutableMap<String, String> = mutableMapOf<String, String>()
+    orderMap["totalAmount"] = amount.toString()
+    orderMap["time"] = saveCurrentTime
+    orderMap["date"] = saveCurrentDate
+    orderMap["key"] = key
+    orderRef.updateChildren(orderMap as Map<String, Any>).addOnCompleteListener() { task ->
+      if (task.isSuccessful) {
+        FirebaseDatabase.getInstance().reference.child("Cart List")
+          .child("User View").child(mFirebaseAuth.currentUser?.phoneNumber.toString())
+          .removeValue().addOnCompleteListener() { task ->
+            show(requireActivity(), requireActivity().resources.getString(R.string.order_success))
+            startActivity(Intent(requireActivity(), receiver_bottom::class.java))
+          }
+
+      }
+    }
+    val dashRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Item")
+    val postListener = object : ValueEventListener {
+      override fun onDataChange(dataSnapshot: DataSnapshot) {
+        if (dataSnapshot.exists()) {
+          for (postSnapshot in dataSnapshot.children) {
+            var item = postSnapshot.getValue(Item::class.java)
+            if (arrayIDs.contains(item?.itemId) && item != null) {
+              val i: Int = arrayIDs.indexOf(item.itemId)
+              val current: Int = item.quantity - arrayQuantity[i]
+              if (current > 0) {
+                postSnapshot.ref.child("quantity").setValue(current)
+                postSnapshot.ref.child("redeemed").setValue(false)
+              } else {
+                postSnapshot.ref.child("quantity").setValue(current)
+                postSnapshot.ref.child("redeemed").setValue(true)
               }
             }
           }
         }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-          context?.let { show(it, databaseError.message) }
-        }
       }
-      dashRef.addListenerForSingleValueEvent(postListener)
-    }
 
+      override fun onCancelled(databaseError: DatabaseError) {
+        context?.let { show(it, databaseError.message) }
+      }
+    }
+    dashRef.addListenerForSingleValueEvent(postListener)
+  }
 
   }
