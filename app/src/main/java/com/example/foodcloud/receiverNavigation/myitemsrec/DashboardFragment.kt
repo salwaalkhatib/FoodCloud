@@ -28,6 +28,7 @@ import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 import java.time.Instant.now
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class DashboardFragment() : Fragment() {
@@ -40,6 +41,7 @@ class DashboardFragment() : Fragment() {
   private lateinit var totalAmount: TextView
   private lateinit var arrayIDs: ArrayList<String>
   private lateinit var arrayQuantity: ArrayList<Int>
+  private lateinit var arrayItemID: ArrayList<String>
   private var amount: Int = 0
   lateinit var noOrder:TextView
   private val MAX: Int = 10
@@ -66,6 +68,7 @@ class DashboardFragment() : Fragment() {
     mFirebaseAuth = FirebaseAuth.getInstance()
     arrayIDs = arrayListOf()
     arrayQuantity = arrayListOf()
+    arrayItemID = arrayListOf()
 
 
 
@@ -110,6 +113,7 @@ class DashboardFragment() : Fragment() {
         override fun onBindViewHolder(holder: CartViewHolder, position: Int, model: Cart) {
           arrayIDs.add(model.iid)
           arrayQuantity.add(model.quantity.toInt())
+          arrayItemID.add(model.iid)
           holder.txtItemName.text = model.itemName
           holder.txtItemQuantity.text = "Quantity: " + model.quantity
           holder.txtItemCategory.text = model.itemCategory
@@ -169,6 +173,7 @@ class DashboardFragment() : Fragment() {
     var x: Int = 0
     val postListener1 = object: ValueEventListener{
       override fun onDataChange(dataSnapshot: DataSnapshot) {
+        if(dataSnapshot.exists()){
         for (postSnapshot in dataSnapshot.children) {
           val order= postSnapshot.getValue(Order::class.java)!!
           if (order != null && order?.date.toString() == saveDate) {
@@ -185,7 +190,13 @@ class DashboardFragment() : Fragment() {
           }else{
             order()
 
+            break
+
           }
+
+        } }else if(!dataSnapshot.exists()){
+
+          order()
 
         }
 
@@ -195,7 +206,7 @@ class DashboardFragment() : Fragment() {
 
       }
     }
-    nbOrder.addValueEventListener(postListener1)
+    nbOrder.addListenerForSingleValueEvent(postListener1)
 
     }
 
@@ -244,6 +255,7 @@ class DashboardFragment() : Fragment() {
     orderMap["time"] = saveCurrentTime
     orderMap["date"] = saveCurrentDate
     orderMap["key"] = key
+    orderMap["itemID"] = arrayItemID.toString()
     orderRef.updateChildren(orderMap as Map<String, Any>).addOnCompleteListener() { task ->
       if (task.isSuccessful) {
         FirebaseDatabase.getInstance().reference.child("Cart List")
