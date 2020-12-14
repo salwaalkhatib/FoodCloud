@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">FoodCloud</string>
+    <string name="OTP">OTP</string>
+    <string name="Login">Login</string>
+    <string name="OTP_logo">Verify Phone Number</string>
+    <string name="Email">Email</string>
+    <string name="signin">Sign In</string>
+    <string name="signup">Sign Up</string>
+    <string name="password">Password</string>
+    <string name="noaccount">No Account? Sign Up</string>
+    <string name="signupdonor">Sign Up as a Donor</string>
+    <string name="confirm">Confirm Password</string>
+    <string name="already">Already have an account? Sign in</string>
+    <string name="switchto">Switch to Receiver</string>
+    <string name="reset">Reset Password</string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="forgotText">We just need your registered email address to send your password reset to your email</string>
+    <string name="todo">todo</string>
+    <string name="quantity_by_unit">Quantity /by unit</string>
+    <string name="food_name">Food name</string>
+    <string name="category">Category</string>
+    <string name="phone_number">Phone number</string>
+    <string name="expiry_date">Expiry date</string>
+    <string name="submit">Submit</string>
+    <string name="add_an_item">Add an item</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="my_profile">My profile</string>
+    <string name="my_items">My items</string>
+    <string name="reset_email_sent">Reset email sent</string>
+    <string name="enter_email">Enter email</string>
+    <string name="please_email">Please enter email</string>
+    <string name="please_pass">Please enter password </string>
+    <string name="please_pass_again">Please enter password again</string>
+    <string name="please_all_fields">Please enter all the fields</string>
+    <string name="success_login">Successfully Logged in</string>
+    <string name="logout">Logged out</string>
+    <string name="phone_code">+961</string>
+    <string name="valid_nbr">Enter a valid phone number</string>
+    <string name="reauth_success">Re-authentication successful</string>
+    <string name="reauth_fail">Re-authentication failed</string>
+    <string name="auth_success">Authentication successful</string>
+    <string name="auth_fail">Authentication failed</string>
+    <string name="pass_change">Password changed</string>
+    <string name="pass_nomatch">Passwords don\'t match</string>
+    <string name="error">Error occurred</string>
+    <string name="error_login">Error logging in</string>
+    <string name="item_added">Item added</string>
+    <string name="expired">Expired food</string>
+    <string name="search">Search</string>
+    <string name="success_signup">Successfully Registered</string>
+    <string name="phonenbr">Phone Number</string>
+    <string name="log_out">Logout</string>
+    <string name="dialog_delete">Cart Options</string>
+    <string name="dialog_delete_msg">Do you want to remove or Edit Item?</string>
+    <string name="item_removed">Item Removed</string>
+    <string name="update_pic">Updating profile picture</string>
+    <string name="update_pic_text">Please wait while we update your profile.</string>
+    <string name="error_pic">An error occurred while retrieving picture.</string>
+    <string name="dialog_addimage">Add image</string>
+    <string name="dialog_add_image">Do you want to add an image?</string>
+    <string name="upload_image">Uploading your image</string>
+    <string name="order_success">Your order is successful</string>
+    <string name="confirm_order">Confirm order</string>
+    <string name="confirm_order_msg">Are you sure you want to order these items?</string>
+    <string name="upload_img_text">Please wait while we upload your image.</string>
+    <string-array name="category_array">
+        <item>Candy</item>
+        <item>Canned Food</item>
+        <item>Condiments</item>
+        <item>Dairy</item>
+        <item>Drinks</item>
+        <item>Fish-Seafood</item>
+        <item>Fruits</item>
+        <item>Grains, Beans, and Nuts</item>
+        <item>Meals</item>
+        <item>Meat and Poultry</item>
+        <item>Salads</item>
+        <item>Sandwiches</item>
+        <item>Soups</item>
+        <item>Vegetables</item>
+        <item>Others</item>
+    </string-array>
+    <string name="title_activity_receiver_bottom">MainActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>

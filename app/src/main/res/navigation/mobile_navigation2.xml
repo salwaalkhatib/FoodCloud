@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation2"
+    android:background="@color/lightBeige"
+    app:startDestination="@+id/navigation_dash"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/navigation_dash"
+        android:name="com.example.foodcloud.receiverNavigation.homedashrec.HomeFragment"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:layout="@layout/fragment_homedashbrec" />
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.foodcloud.receiverNavigation.myitemsrec.DashboardFragment"
+
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:layout="@layout/fragment_dashboard_rec" />
+
+    <fragment
+        android:id="@+id/navigation_pro"
+        android:name="com.example.foodcloud.receiverNavigation.recprofile.NotificationsFragment"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:layout="@layout/fragment_recprofile" />
+    <fragment
+        android:id="@+id/receiver_orders"
+        android:name="com.example.foodcloud.receiverNavigation.orders.OrdersFragment"
+        android:label="fragment_receiver_orders"
+        tools:layout="@layout/fragment_receiver_orders" />
+
+</navigation>

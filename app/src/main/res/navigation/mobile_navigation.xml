@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    android:background="@color/lightBeige"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.foodcloud.donor.navigation_bar.additem.HomeFragment"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:layout="@layout/fragment_additem" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.foodcloud.donor.navigation_bar.donormyitems.DashboardFragment"
+
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:layout="@layout/fragment_dashboard_donor" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.foodcloud.donor.navigation_bar.donorprofile.NotificationsFragment"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:layout="@layout/fragment_profile_donor" />
+</navigation>

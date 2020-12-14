@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="5dp"
+    android:layout_margin="5dp">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightBeige"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/dealID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sample"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:padding="10dp"></TextView>
+        <TextView
+            android:id="@+id/descrip"
+            android:layout_below="@id/dealID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sample"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="10dp"></TextView>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dealID"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"
+            android:padding="10dp"
+            android:text="Status"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"></View>
+
+</androidx.cardview.widget.CardView>
