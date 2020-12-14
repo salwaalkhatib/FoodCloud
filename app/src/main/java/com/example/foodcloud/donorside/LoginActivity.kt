@@ -4,12 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import com.example.foodcloud.Item.Item
+import com.example.foodcloud.Item.Order
 import com.example.foodcloud.R
 import com.example.foodcloud.Util.show
 import com.example.foodcloud.receiver.loginreceiver
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LoginActivity : AppCompatActivity() {
     internal lateinit var emailId: EditText
@@ -80,5 +85,38 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         mFirebaseAuth.addAuthStateListener(mAuthStateListener)
+        modifyDatabase()
+    }
+
+    private fun modifyDatabase(){
+        val nbOrder: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Item")
+        val postListener = object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (postSnapshot in dataSnapshot.children) {
+                    val item = postSnapshot.getValue(Item::class.java)
+                    if(item!=null){
+                        val formatter = SimpleDateFormat("dd/MM/yyyy")
+                        val datestring = formatter.format(Date(item.exdate))
+
+                        val strDate: Date = formatter.parse(datestring)
+                        if(Date().after(strDate)){
+                            postSnapshot.ref.child("expired").setValue(true)
+                        }else{
+                            postSnapshot.ref.child("expired").setValue(false)
+
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        }
+        nbOrder.addValueEventListener(postListener)
     }
 }

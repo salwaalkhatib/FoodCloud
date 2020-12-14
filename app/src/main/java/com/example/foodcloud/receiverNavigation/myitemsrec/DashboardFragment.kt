@@ -176,7 +176,12 @@ class DashboardFragment() : Fragment() {
           }
           if(amount_db+ amount>MAX) {
             x = MAX - amount_db
-            noOrder?.text = "You can only order "+ x.toString()+ " item(s)."
+            if(x==1){
+              noOrder?.text = "You can only order "+ x.toString()+ " item."
+            }else if(x>1){
+              noOrder?.text = "You can only order "+ x.toString()+ " items."
+            }
+
           }else{
             order()
 

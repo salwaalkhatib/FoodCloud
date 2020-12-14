@@ -30,7 +30,7 @@ class AdapterClass(private val list: ArrayList<Item>): RecyclerView.Adapter<Adap
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.id.text = list[position].name
         holder.desc.text = list[position].category
-        if(list[position].expired) {
+        if(list[position].expired && !list[position].redeemed) {
             holder.status.text = "Expired"
             holder.status.setTextColor(Color.RED)
         }else if(list[position].redeemed){

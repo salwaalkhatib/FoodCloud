@@ -55,8 +55,9 @@ class HomeFragment : Fragment() {
           if(dataSnapshot.exists()){
             list = arrayListOf()
             for(postSnapshot in dataSnapshot.children){
-              if(postSnapshot.getValue(Item::class.java)?.quantity!! >0){
-              list.add(postSnapshot.getValue(Item::class.java)!!)
+              val item = postSnapshot.getValue(Item::class.java)!!
+              if(item.quantity!! >0 && !item.expired){
+              list.add(item)
             }}
              val adapterClass = AdapterClassReceiver(list)
              recyclerView.adapter = adapterClass
