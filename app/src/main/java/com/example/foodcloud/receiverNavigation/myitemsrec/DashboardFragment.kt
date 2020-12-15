@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat
 import java.time.Instant.now
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 
 class DashboardFragment() : Fragment() {
@@ -44,6 +45,7 @@ class DashboardFragment() : Fragment() {
   private lateinit var arrayItemID: ArrayList<String>
   private var amount: Int = 0
   lateinit var noOrder:TextView
+  var amount_db by Delegates.notNull<Int>()
   private val MAX: Int = 10
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -169,38 +171,45 @@ class DashboardFragment() : Fragment() {
     val calForDate1: Calendar = Calendar.getInstance()
     val currentDate1 = SimpleDateFormat("MMM dd, yyyy")
     val saveDate = currentDate1.format(calForDate1.time)
-    var amount_db: Int = 0
     var x: Int = 0
-    val postListener1 = object: ValueEventListener{
+    val postListener1 = object: ValueEventListener {
       override fun onDataChange(dataSnapshot: DataSnapshot) {
         if(dataSnapshot.exists()){
-        for (postSnapshot in dataSnapshot.children) {
-          val order= postSnapshot.getValue(Order::class.java)!!
-          if (order != null && order?.date.toString() == saveDate) {
-            amount_db += order?.totalAmount?.toInt()
-          }
-          if(amount_db+ amount>MAX) {
-            x = MAX - amount_db
-            if(x==1){
-              noOrder?.text = "You can only order "+ x.toString()+ " item."
-            }else if(x>1){
-              noOrder?.text = "You can only order "+ x.toString()+ " items."
+          amount_db = 0
+          for (postSnapshot in dataSnapshot.children){
+            val order= postSnapshot.getValue(Order::class.java)!!
+            if (order != null && order?.date.toString() == saveDate) {
+              amount_db += order?.totalAmount?.toInt()
+            } else if(order!=null && order?.date.toString() != saveDate){
+              if(amount>MAX){
+                noOrder?.text = "You can only order 10 items."
+              }else{
+                order()
+              }
             }
 
-          }else{
+          }
+          if(amount_db>=MAX){
+            orderBtn.isEnabled = false
+            noOrder.text = "You can't make any more orders today. Kindly visit us tomorrow!"
+          }else if(amount_db+amount>MAX){
+            x = MAX - amount_db
+            if(x==1){
+              noOrder.text = "You can only order "+ x+ " item."}else{
+              noOrder.text = "You can only order "+ x+ " items."
+            }
+          }else if(amount_db+amount<=MAX){
             order()
-
-            break
-
           }
 
-        } }else if(!dataSnapshot.exists()){
-
-          order()
-
+        }else{
+          amount_db = 0
+          if(amount>MAX){
+            noOrder?.text = "You can only order 10 items."
+          }else{
+            order()
+          }
         }
-
-
       }
       override fun onCancelled(error: DatabaseError) {
 
@@ -208,7 +217,7 @@ class DashboardFragment() : Fragment() {
     }
     nbOrder.addListenerForSingleValueEvent(postListener1)
 
-    }
+  }
 
   private fun amount_in_db(){
     val nbOrder: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Orders")
@@ -216,15 +225,15 @@ class DashboardFragment() : Fragment() {
     val calForDate: Calendar = Calendar.getInstance()
     val currentDate = SimpleDateFormat("MMM dd, yyyy")
     val saveDate = currentDate.format(calForDate.time)
-    var amount_db: Int = 0
+    var amount_db_1: Int = 0
     val postListener1 = object: ValueEventListener{
       override fun onDataChange(dataSnapshot: DataSnapshot) {
         for (postSnapshot in dataSnapshot.children) {
           val order= postSnapshot.getValue(Order::class.java)!!
           if (order != null && order?.date.toString() == saveDate) {
-            amount_db += order?.totalAmount?.toInt()
+            amount_db_1 += order?.totalAmount?.toInt()
           }
-          if(amount_db>=MAX){
+          if(amount_db_1>=MAX){
             orderBtn.isEnabled = false
             noOrder.text = "You can't make any more orders today. Kindly visit us tomorrow!"}
 
