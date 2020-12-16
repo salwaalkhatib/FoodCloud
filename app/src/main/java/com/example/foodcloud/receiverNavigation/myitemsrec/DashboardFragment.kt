@@ -2,7 +2,6 @@ package com.example.foodcloud.receiverNavigation.myitemsrec
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -181,11 +180,7 @@ class DashboardFragment() : Fragment() {
             if (order != null && order?.date.toString() == saveDate) {
               amount_db += order?.totalAmount?.toInt()
             } else if(order!=null && order?.date.toString() != saveDate){
-              if(amount>MAX){
-                noOrder?.text = "You can only order 10 items."
-              }else{
-                order()
-              }
+
             }
 
           }
@@ -200,6 +195,12 @@ class DashboardFragment() : Fragment() {
             }
           }else if(amount_db+amount<=MAX){
             order()
+          }else if(amount_db==0){
+            if(amount>MAX){
+              noOrder?.text = "You can only order 10 items."
+            }else{
+              order()
+            }
           }
 
         }else{
