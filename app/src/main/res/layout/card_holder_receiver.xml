@@ -15,7 +15,7 @@
 
        <TextView
            android:id="@+id/itemname"
-           android:layout_width="150dp"
+           android:layout_width="140dp"
            android:layout_height="wrap_content"
            android:layout_marginTop="10dp"
            android:text="Sample"
@@ -82,16 +82,30 @@
            android:id="@+id/exdate1"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:gravity="end"
            android:text="TextView"
+           android:textAlignment="textEnd"
            android:textColor="@color/colorPrimaryDark"
            app:layout_constraintBottom_toBottomOf="parent"
-           android:textAlignment="textEnd"
-           android:gravity="end"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.54"
+           app:layout_constraintHorizontal_bias="0.459"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintVertical_bias="0.8" />
+           app:layout_constraintVertical_bias="0.797" />
+
+       <TextView
+           android:id="@+id/redeemed"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="end"
+           android:textAlignment="textEnd"
+           android:textColor="@color/colorPrimaryDark"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="0.744"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="0.797" />
 
 
    </androidx.constraintlayout.widget.ConstraintLayout>

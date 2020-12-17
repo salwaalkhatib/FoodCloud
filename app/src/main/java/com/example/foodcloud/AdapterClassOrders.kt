@@ -1,6 +1,7 @@
 package com.example.foodcloud
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class AdapterClassOrders(private val list: ArrayList<Order>): RecyclerView.Adapt
         val date : TextView = orderView.findViewById(R.id.category1)
         val amount: TextView = orderView.findViewById(R.id.quantity1)
         val infoBtn: ImageButton = orderView.findViewById(R.id.arrowbtn)
+        val redeemed: TextView = orderView.findViewById(R.id.redeemed)
 
     }
 
@@ -39,6 +41,13 @@ class AdapterClassOrders(private val list: ArrayList<Order>): RecyclerView.Adapt
         holder.order.text="Order $nbr"
         holder.time.text = list[position].time
         holder.date.text = list[position].date
+        if(list[position].redeemed == "true"){
+            holder.redeemed.text = "Redeemed"
+            holder.redeemed.setTextColor(Color.parseColor("#5F813C"))
+        }else if(list[position].redeemed == "false"){
+            holder.redeemed.text = "Pending"
+            holder.redeemed.setTextColor(Color.GRAY)
+        }
         holder.amount.text = "Total Amount: "+list[position].totalAmount
         holder.infoBtn.setOnClickListener {
             val context = holder.itemView.context

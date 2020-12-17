@@ -8,16 +8,19 @@ import android.util.Log
 import android.widget.ImageView
 import com.example.foodcloud.R
 import com.example.foodcloud.Util.show
+import com.google.firebase.auth.FirebaseAuth
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 
 class QRCode : AppCompatActivity() {
+    internal lateinit var mFirebaseAuth: FirebaseAuth
     lateinit var imageView: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_q_r_code)
-        val bitmap = generateQRCode(intent.getStringExtra("key").toString())
+        mFirebaseAuth = FirebaseAuth.getInstance()
+        val bitmap = generateQRCode(intent.getStringExtra("key").toString()+mFirebaseAuth.currentUser?.phoneNumber.toString())
         imageView = findViewById(R.id.qr)
         imageView.setImageBitmap(bitmap)
 

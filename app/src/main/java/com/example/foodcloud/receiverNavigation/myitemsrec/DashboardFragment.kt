@@ -266,6 +266,8 @@ class DashboardFragment() : Fragment() {
     orderMap["date"] = saveCurrentDate
     orderMap["key"] = key
     orderMap["itemID"] = arrayItemID.toString()
+    orderMap["redeemed"] = "false"
+    orderMap["quantity"] = arrayQuantity.toString()
     orderRef.updateChildren(orderMap as Map<String, Any>).addOnCompleteListener() { task ->
       if (task.isSuccessful) {
         FirebaseDatabase.getInstance().reference.child("Cart List")
