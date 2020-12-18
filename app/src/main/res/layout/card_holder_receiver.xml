@@ -15,16 +15,16 @@
 
        <TextView
            android:id="@+id/itemname"
-           android:layout_width="140dp"
+           android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_marginTop="10dp"
+           android:layout_marginTop="16dp"
+           android:gravity="start"
            android:text="Sample"
+           android:textAlignment="textStart"
            android:textSize="20sp"
            android:textStyle="bold"
-           android:textAlignment="textStart"
-           android:gravity="start"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.1"
+           app:layout_constraintHorizontal_bias="0.096"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent"></TextView>
 
@@ -40,10 +40,10 @@
            android:textSize="15sp"
            app:layout_constraintBottom_toTopOf="@+id/exdate1"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.528"
+           app:layout_constraintHorizontal_bias="0.676"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintVertical_bias="0.111"></TextView>
+           app:layout_constraintVertical_bias="0.444"></TextView>
 
        <TextView
            android:id="@+id/quantity1"
@@ -53,13 +53,13 @@
            android:layout_marginLeft="20dp"
            android:layout_marginTop="15dp"
            android:layout_marginBottom="10dp"
-           android:textAlignment="textEnd"
            android:gravity="end"
            android:text="Sample"
+           android:textAlignment="textEnd"
            android:textSize="15sp"
            app:layout_constraintBottom_toBottomOf="parent"
            app:layout_constraintEnd_toStartOf="@+id/exdate1"
-           app:layout_constraintHorizontal_bias="0.12"
+           app:layout_constraintHorizontal_bias="0.075"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toBottomOf="@+id/itemname"
            app:layout_constraintVertical_bias="0.0"></TextView>
@@ -88,10 +88,10 @@
            android:textColor="@color/colorPrimaryDark"
            app:layout_constraintBottom_toBottomOf="parent"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.459"
+           app:layout_constraintHorizontal_bias="0.668"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintVertical_bias="0.797" />
+           app:layout_constraintVertical_bias="0.84" />
 
        <TextView
            android:id="@+id/redeemed"
@@ -100,12 +100,13 @@
            android:gravity="end"
            android:textAlignment="textEnd"
            android:textColor="@color/colorPrimaryDark"
+           android:textSize="10sp"
            app:layout_constraintBottom_toBottomOf="parent"
            app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintHorizontal_bias="0.744"
+           app:layout_constraintHorizontal_bias="0.932"
            app:layout_constraintStart_toStartOf="parent"
            app:layout_constraintTop_toTopOf="parent"
-           app:layout_constraintVertical_bias="0.797" />
+           app:layout_constraintVertical_bias="0.864" />
 
 
    </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import com.example.foodcloud.Item.Item
-import com.example.foodcloud.Item.Order
 import com.example.foodcloud.R
 import com.example.foodcloud.Util.show
-import com.example.foodcloud.receiver.loginreceiver
+import com.example.foodcloud.receiver.SignUpReceiver
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -40,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         mAuthStateListener = FirebaseAuth.AuthStateListener {
             val mFirebaseUser = mFirebaseAuth.currentUser
             if(mFirebaseUser != null){
-                show(this, R.string.success_login.toString())
+                show(this, this.resources.getString(R.string.success_login))
                 startActivity(Intent(this@LoginActivity, Donormain::class.java))
             }
         }
@@ -48,28 +47,28 @@ class LoginActivity : AppCompatActivity() {
             var email: String = emailId.text.toString()
             var pwd: String = password.text.toString()
             if(email.isEmpty()){
-                emailId.setError(this.getResources().getString(R.string.please_email))
+                emailId.setError(this.resources.getString(R.string.please_email))
                 emailId.requestFocus()
             }
             else if(pwd.isEmpty()){
-                password.setError(this.getResources().getString(R.string.please_pass))
+                password.setError(this.resources.getString(R.string.please_pass))
                 password.requestFocus()
             }
             else if(email.isEmpty() && pwd.isEmpty()){
-                show(this, this.getResources().getString(R.string.please_all_fields))
+                show(this, this.resources.getString(R.string.please_all_fields))
             }
             else if(!(email.isEmpty() && pwd.isEmpty())){
                 mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener ( this, OnCompleteListener<AuthResult> { task ->
                     if (task.isSuccessful) {
                         startActivity(Intent(this, Donormain::class.java))
-                        show(this, this.getResources().getString(R.string.success_login))
+                        show(this, this.resources.getString(R.string.success_login))
                     } else {
-                        show(this, this.getResources().getString(R.string.error_login))
+                        show(this, this.resources.getString(R.string.error_login))
                     }
                 })
             }
             else{
-                show(this, this.getResources().getString(R.string.error))
+                show(this, this.resources.getString(R.string.error))
             }
         }
         tvSignUp.setOnClickListener {
@@ -79,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this@LoginActivity, ForgotActivity::class.java))
         }
           switching.setOnClickListener{
-                startActivity(Intent(this@LoginActivity, loginreceiver::class.java))
+                startActivity(Intent(this@LoginActivity, SignUpReceiver::class.java))
                   }
     }
     override fun onStart() {

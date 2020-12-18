@@ -65,7 +65,7 @@
         android:layout_marginEnd="162dp"
         android:layout_marginRight="162dp"
         android:layout_marginBottom="198dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/custom_button"
         android:text="@string/Login"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"

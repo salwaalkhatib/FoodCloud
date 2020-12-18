@@ -35,7 +35,7 @@
             android:layout_marginEnd="77dp"
             android:layout_marginRight="77dp"
             android:layout_marginBottom="29dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/custom_button"
             android:text="@string/submit"
             android:textColor="#FFFFFF" />
 
@@ -191,7 +191,7 @@
         android:id="@+id/addimage"
         android:layout_width="142dp"
         android:layout_height="37dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/custom_button"
         android:text="Add image"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/text_home"

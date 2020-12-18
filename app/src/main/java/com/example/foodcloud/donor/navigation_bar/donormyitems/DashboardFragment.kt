@@ -41,31 +41,6 @@ class DashboardFragment : Fragment() {
             textView.text = it
         })
         mFirebaseAuth = FirebaseAuth.getInstance()
-//        listView = root.findViewById(R.id.listview)
-//        database = FirebaseDatabase.getInstance()
-//        ref = database.getReference("Item")
-//        list = mutableListOf()
-//        adapter = ArrayAdapter<String>(root.context, R.layout.item_info, R.id.itemInfo, list)
-//        useremail=mFirebaseAuth.currentUser?.email.toString()
-//        val postListener = object: ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                for(postSnapshot in snapshot.children){
-//                    var item = postSnapshot.getValue(Item::class.java)
-//                    if (item != null &&item.userEmail==useremail) {
-//                        list.add(item.name)
-//                    }
-//                }
-//                listView.adapter = adapter
-//
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//
-//        }
-//
-//        ref.addValueEventListener(postListener)
         ref = FirebaseDatabase.getInstance().reference.child("Item")
         recyclerView = root.findViewById(R.id.rv1)
         searchView = root.findViewById(R.id.SearchViewDonor)

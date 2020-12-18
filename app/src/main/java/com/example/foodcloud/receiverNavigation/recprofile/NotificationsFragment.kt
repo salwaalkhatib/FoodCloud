@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.foodcloud.R
 import com.example.foodcloud.Util.show
-import com.example.foodcloud.receiver.loginreceiver
+import com.example.foodcloud.receiver.SignUpReceiver
 import com.google.firebase.auth.FirebaseAuth
 
 class NotificationsFragment : Fragment() {
@@ -40,11 +40,10 @@ class NotificationsFragment : Fragment() {
     mFirebaseAuth = FirebaseAuth.getInstance()
     val userphonenbr = mFirebaseAuth.currentUser?.phoneNumber.toString()
     phonenbr.text = userphonenbr
-//    phonenbr.text =
     logoutbtn.setOnClickListener {
       FirebaseAuth.getInstance().signOut()
-      startActivity(Intent(activity, loginreceiver::class.java))
-      show(root.context, this.getResources().getString(R.string.logout))
+      startActivity(Intent(activity, SignUpReceiver::class.java))
+      show(root.context, this.resources.getString(R.string.logout))
     }
     return root
   }

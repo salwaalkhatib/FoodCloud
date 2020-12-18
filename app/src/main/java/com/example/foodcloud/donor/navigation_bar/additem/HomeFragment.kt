@@ -71,15 +71,8 @@ class HomeFragment : Fragment() {
             (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         })
 
-//        val name:EditText=root.findViewById(R.id.foodname)
-//        val category:EditText=root.findViewById(R.id.category)
-//        val phone:EditText=root.findViewById(R.id.phonenb)
-//        val quantity:EditText=root.findViewById(R.id.quantity)
-//        val exdate:EditText=root.findViewById(R.id.exdate)
-//        val submitbtn:Button=root.findViewById(R.id.submit)
         var database = FirebaseDatabase.getInstance().getReference("Item")
 
-        //val item: Item = Item()
         name = root.findViewById(R.id.foodname)
         phone = root.findViewById(R.id.phonenb)
         quantity = root.findViewById(R.id.quantity)
@@ -87,7 +80,6 @@ class HomeFragment : Fragment() {
         submitbtn = root.findViewById(R.id.submit)
         addphoto = root.findViewById(R.id.addimage)
         image = root.findViewById(R.id.image)
-       // testt = root.findViewById(R.id.testt)
         storage = FirebaseStorage.getInstance()
         addphoto.setOnClickListener {
             CropImage.activity()
@@ -118,10 +110,6 @@ class HomeFragment : Fragment() {
             val Expirydate = calendar.timeInMillis
 
 
-           // val formatter = SimpleDateFormat("dd-MM-yyyy")
-           // val datestring = formatter.format(Date(Expirydate))
-           // testt.text = datestring
-
             item.userEmail = mFirebaseAuth.currentUser?.email.toString()
             item.itemId = UUID.randomUUID().toString()
             item.name = Name.capitalize()
@@ -129,11 +117,11 @@ class HomeFragment : Fragment() {
             item.phone = Phone
             item.quantity = Quantity
             item.exdate = Expirydate
+            item.initialQuantity = Quantity
             if (imageUri != null) {
                 var fileRef: StorageReference = storage.reference
                     .child("item pictures")
                     .child(item.itemId + ".jpg")
-                //     .child(mFirebaseAuth.currentUser?.email.toString()+".jpg")
                 uploadTask = fileRef.putFile(imageUri)
                 uploadTask.addOnSuccessListener(OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot -> // Get a URL to the uploaded content
                     downloadURL = taskSnapshot.storage.downloadUrl.toString()
@@ -144,7 +132,7 @@ class HomeFragment : Fragment() {
                         context?.let {
                             Util.show(
                                 it,
-                                this.getResources().getString(R.string.error)
+                                this.resources.getString(R.string.error)
                             )
                         }
                     })
@@ -153,24 +141,24 @@ class HomeFragment : Fragment() {
                 context?.let {
                     Util.show(
                         it,
-                        this.getResources().getString(R.string.error)
+                        this.resources.getString(R.string.error)
                     )
                 }
 
             }
 
             if (Name.isEmpty() || Category.isEmpty() || Phone.isEmpty() || Quantito.isEmpty()) {
-                context?.let { show(it, this.getResources().getString(R.string.please_all_fields)) }
+                context?.let { show(it, this.resources.getString(R.string.please_all_fields)) }
 
             } else if (Name.isEmpty() && Category.isEmpty() && Phone.isEmpty() && Quantito.isEmpty()) {
                 context?.let { show(it, "Form is empty") }
             } else if (Expirydate < System.currentTimeMillis()) {
 
-                context?.let { show(it, this.getResources().getString(R.string.expired)) }
+                context?.let { show(it, this.resources.getString(R.string.expired)) }
             } else {
                 database.push().setValue(item)
-                this.getResources().getString(R.string.expired)
-                context?.let { show(it, this.getResources().getString(R.string.item_added)) }
+                this.resources.getString(R.string.expired)
+                context?.let { show(it, this.resources.getString(R.string.item_added)) }
                 name.getText().clear()
                 phone.getText().clear()
                 quantity.getText().clear()
@@ -196,15 +184,6 @@ class HomeFragment : Fragment() {
             var result = CropImage.getActivityResult(data)
             imageUri = result.uri
             image.setImageResource(R.drawable.tick)
-//            image.setImageURI(imageUri)
-
-        //    val progressDialog = ProgressDialog(activity)
-          //  progressDialog.setTitle(this.getResources().getString(R.string.upload_image))
-           // progressDialog.setMessage(this.getResources().getString(R.string.upload_img_text))
-           // progressDialog.setCanceledOnTouchOutside(false)
-           // progressDialog.show()
-
-
 
         }
 

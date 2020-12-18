@@ -67,7 +67,7 @@ class VerifyMobile : AppCompatActivity() {
             .addOnCompleteListener {
                     task: Task<AuthResult> ->
                 if (task.isSuccessful) {
-                    show(this,this.getResources().getString(R.string.success_login))
+                    show(this,this.resources.getString(R.string.success_login))
                     startActivity(Intent(this, receiver_bottom::class.java))
                 }
             }

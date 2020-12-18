@@ -44,18 +44,16 @@ class passDonor : AppCompatActivity() {
                     user.reauthenticate(credential)
                         .addOnCompleteListener {
                             if(it.isSuccessful){
-                                show(this, R.string.reauth_success.toString())
+                                show(this, this.resources.getString(R.string.reauth_success))
                                 user.updatePassword(newPass.text.toString())
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
-                                            show(this, R.string.pass_change.toString())
-                                            auth.signOut()
-                                            startActivity(Intent(this, LoginActivity::class.java))
-                                            finish()
+                                            show(this,this.resources.getString(R.string.pass_change))
+                                            startActivity(Intent(this, Donormain::class.java))
                                         }
                                     }
                             } else {
-                                show(this, R.string.reauth_fail.toString())
+                                show(this, this.resources.getString(R.string.reauth_fail))
                             }
                         }
 
@@ -65,14 +63,14 @@ class passDonor : AppCompatActivity() {
                 }
 
             }else{
-                newPass.setError(R.string.pass_nomatch.toString())
-                newPassCon.setError(R.string.pass_nomatch.toString())
+                newPass.error = this.resources.getString(R.string.pass_nomatch)
+                newPassCon.error = this.resources.getString(R.string.pass_nomatch)
                 newPass.requestFocus()
                 newPassCon.requestFocus()
             }
 
         } else{
-            show(this, R.string.please_all_fields.toString())
+            show(this, this.resources.getString(R.string.please_all_fields))
         }
 
     }

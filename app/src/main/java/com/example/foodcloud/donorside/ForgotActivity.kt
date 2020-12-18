@@ -23,15 +23,15 @@ class ForgotActivity : AppCompatActivity() {
         mFirebaseAuth = FirebaseAuth.getInstance()
         btnReset.setOnClickListener {
             if(email.text.toString().isEmpty()){
-                email.setError(this.getResources().getString(R.string.enter_email))
+                email.error = this.resources.getString(R.string.enter_email)
                 email.requestFocus()
             } else{
                 mFirebaseAuth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener(this) { task ->
                     if(task.isSuccessful){
-                        show(this, this.getResources().getString(R.string.reset_email_sent))
+                        show(this, this.resources.getString(R.string.reset_email_sent))
                         startActivity(Intent(this, LoginActivity::class.java))
                     } else{
-                        show(this, this.getResources().getString(R.string.error))
+                        show(this, this.resources.getString(R.string.error))
                     }
                 }
 

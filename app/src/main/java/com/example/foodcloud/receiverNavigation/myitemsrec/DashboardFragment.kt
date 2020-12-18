@@ -124,8 +124,8 @@ class DashboardFragment() : Fragment() {
 
           holder.itemView.setOnClickListener {
             val alertDialog: AlertDialog.Builder = AlertDialog.Builder(activity!!)
-            alertDialog.setTitle(activity!!.getResources().getString(R.string.dialog_delete))
-            alertDialog.setMessage(activity!!.getResources().getString(R.string.dialog_delete_msg))
+            alertDialog.setTitle(activity!!.resources.getString(R.string.dialog_delete))
+            alertDialog.setMessage(activity!!.resources.getString(R.string.dialog_delete_msg))
             alertDialog.setPositiveButton(
               "Remove"
             ) { _, _ ->

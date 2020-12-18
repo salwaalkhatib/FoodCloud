@@ -48,7 +48,7 @@ class AdapterClassOrders(private val list: ArrayList<Order>): RecyclerView.Adapt
             holder.redeemed.text = "Pending"
             holder.redeemed.setTextColor(Color.GRAY)
         }
-        holder.amount.text = "Total Amount: "+list[position].totalAmount
+        holder.amount.text = "Total Amount: " + list[position].totalAmount
         holder.infoBtn.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, QRCode::class.java)

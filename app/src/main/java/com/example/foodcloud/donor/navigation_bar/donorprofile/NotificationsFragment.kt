@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.foodcloud.Item.Item
 import com.example.foodcloud.R
 import com.example.foodcloud.Util
 import com.example.foodcloud.donorside.LoginActivity
@@ -23,6 +24,7 @@ import com.example.foodcloud.donorside.passDonor
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -40,9 +42,8 @@ class NotificationsFragment : Fragment() {
     lateinit  var pp:CircleImageView
     lateinit var ppchange:Button
     lateinit var imageUri:Uri
-    lateinit var myURL:URL
-    lateinit var IMAGE_URL:String
     lateinit var downloadURL:String
+    lateinit var amount_donated: TextView
     lateinit var storageprofilepictureRef:StorageReference
 
     lateinit var uploadTask: UploadTask
@@ -76,6 +77,7 @@ class NotificationsFragment : Fragment() {
         ppchange=root.findViewById(R.id.changepp)
         editbtn=root.findViewById(R.id.edit)
         logbtn=root.findViewById(R.id.logout2)
+        amount_donated = root.findViewById(R.id.amount_donated)
         storage= FirebaseStorage.getInstance()
 
         logbtn.setOnClickListener {
@@ -83,6 +85,29 @@ class NotificationsFragment : Fragment() {
             startActivity(Intent(activity, LoginActivity::class.java))
             Util.show(root.context, this.getResources().getString(R.string.logout))
         }
+        val ref: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Item")
+        var amountDB: Int = 0
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (postSnapshot in dataSnapshot.children) {
+                        var item = postSnapshot.getValue(Item::class.java)
+                        if(item != null && item.userEmail == mFirebaseAuth.currentUser?.email.toString()){
+                            amountDB += item.initialQuantity
+                        }
+
+                    }
+                    amount_donated.text = "Amount Donated: $amountDB"
+
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                context?.let { Util.show(it, databaseError.message) }
+            }
+        }
+        ref.addListenerForSingleValueEvent(postListener)
+
 
         var user = mFirebaseAuth.currentUser;
         var email=""
@@ -116,8 +141,8 @@ class NotificationsFragment : Fragment() {
             pp.setImageURI(imageUri)
 
             val progressDialog = ProgressDialog(activity)
-            progressDialog.setTitle(this.getResources().getString(R.string.update_pic))
-            progressDialog.setMessage(this.getResources().getString(R.string.update_pic_text))
+            progressDialog.setTitle(this.resources.getString(R.string.update_pic))
+            progressDialog.setMessage(this.resources.getString(R.string.update_pic_text))
             progressDialog.setCanceledOnTouchOutside(false)
             progressDialog.show()
 
@@ -138,7 +163,7 @@ class NotificationsFragment : Fragment() {
                         context?.let {
                             Util.show(
                                 it,
-                                this.getResources().getString(R.string.error)
+                                this.resources.getString(R.string.error)
                             )
                         }
                         progressDialog.dismiss()})
@@ -149,7 +174,7 @@ class NotificationsFragment : Fragment() {
             context?.let {
                 Util.show(
                     it,
-                    this.getResources().getString(R.string.error)
+                    this.resources.getString(R.string.error)
                 )
             }
 

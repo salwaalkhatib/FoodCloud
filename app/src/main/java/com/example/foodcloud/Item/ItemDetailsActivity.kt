@@ -158,7 +158,6 @@ class ItemDetailsActivity : AppCompatActivity() {
         imageRef.getFile(localfile).addOnSuccessListener {
             val bitmap: Bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
             itemImage.setImageBitmap(bitmap)
-//            Picasso.get().load("").into(itemImage);
         }
 
 

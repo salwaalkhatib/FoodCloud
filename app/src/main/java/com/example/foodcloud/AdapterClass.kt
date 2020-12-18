@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.foodcloud.Item.Item
 
 class AdapterClass(private val list: ArrayList<Item>): RecyclerView.Adapter<AdapterClass.MyViewHolder>() {
-//    private val list: ArrayList<Item> = arrayListOf()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val id: TextView = itemView.findViewById(R.id.dealID)
