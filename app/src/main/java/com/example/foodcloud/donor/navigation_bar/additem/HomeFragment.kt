@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
     lateinit var uploadTask: UploadTask
     lateinit var addphoto:Button
     lateinit var image:ImageView
-   // lateinit var testt:TextView
+    // lateinit var testt:TextView
     val item: Item = Item()
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -72,7 +72,7 @@ class HomeFragment : Fragment() {
         })
 
         var database = FirebaseDatabase.getInstance().getReference("Item")
-
+        imageUri=Uri.parse("http://www.google.com")
         name = root.findViewById(R.id.foodname)
         phone = root.findViewById(R.id.phonenb)
         quantity = root.findViewById(R.id.quantity)
@@ -109,16 +109,25 @@ class HomeFragment : Fragment() {
             calendar[year, month] = day
             val Expirydate = calendar.timeInMillis
 
-
-            item.userEmail = mFirebaseAuth.currentUser?.email.toString()
             item.itemId = UUID.randomUUID().toString()
+            item.userEmail = mFirebaseAuth.currentUser?.email.toString()
             item.name = Name.capitalize()
             item.category = Category
             item.phone = Phone
             item.quantity = Quantity
             item.exdate = Expirydate
             item.initialQuantity = Quantity
-            if (imageUri != null) {
+
+            if (imageUri == Uri.parse("http://www.google.com")) {
+                context?.let {
+                    Util.show(
+                        it,
+                        "Please add an image. "
+                    )
+                }
+
+            }
+            else {
                 var fileRef: StorageReference = storage.reference
                     .child("item pictures")
                     .child(item.itemId + ".jpg")
@@ -137,43 +146,35 @@ class HomeFragment : Fragment() {
                         }
                     })
 
-            } else {
-                context?.let {
-                    Util.show(
-                        it,
-                        this.resources.getString(R.string.error)
+
+
+                if (Name.isEmpty() || Category.isEmpty() || Phone.isEmpty() || Quantito.isEmpty()) {
+                    context?.let { show(it, this.resources.getString(R.string.please_all_fields)) }
+
+                } else if (Name.isEmpty() && Category.isEmpty() && Phone.isEmpty() && Quantito.isEmpty()) {
+                    context?.let { show(it, "Form is empty") }
+                } else if (Expirydate < System.currentTimeMillis()) {
+
+                    context?.let { show(it, this.resources.getString(R.string.expired)) }
+                } else {
+                    database.push().setValue(item)
+                    this.resources.getString(R.string.expired)
+                    context?.let { show(it, this.resources.getString(R.string.item_added)) }
+                    name.getText().clear()
+                    phone.getText().clear()
+                    quantity.getText().clear()
+                    image.setImageDrawable(null)
+
+                    val cal = Calendar.getInstance()
+                    exdate.updateDate(
+                        cal[Calendar.YEAR],
+                        cal[Calendar.MONTH],
+                        cal[Calendar.DAY_OF_MONTH]
                     )
                 }
 
             }
-
-            if (Name.isEmpty() || Category.isEmpty() || Phone.isEmpty() || Quantito.isEmpty()) {
-                context?.let { show(it, this.resources.getString(R.string.please_all_fields)) }
-
-            } else if (Name.isEmpty() && Category.isEmpty() && Phone.isEmpty() && Quantito.isEmpty()) {
-                context?.let { show(it, "Form is empty") }
-            } else if (Expirydate < System.currentTimeMillis()) {
-
-                context?.let { show(it, this.resources.getString(R.string.expired)) }
-            } else {
-                database.push().setValue(item)
-                this.resources.getString(R.string.expired)
-                context?.let { show(it, this.resources.getString(R.string.item_added)) }
-                name.getText().clear()
-                phone.getText().clear()
-                quantity.getText().clear()
-                image.setImageDrawable(null)
-
-                val cal = Calendar.getInstance()
-                exdate.updateDate(
-                    cal[Calendar.YEAR],
-                    cal[Calendar.MONTH],
-                    cal[Calendar.DAY_OF_MONTH]
-                )
-            }
-
         }
-
 
         return root
     }
