@@ -1,4 +1,4 @@
-<img align="left" width="100"  src="app/src/main/res/drawable/logo.png" alt="FoodCloud logo">
+<img align="left" width="150"  src="app/src/main/res/drawable/logo_transparent.png" alt="FoodCloud logo">
 
 # Food Cloud: A Food Wastage Reduction App
 
